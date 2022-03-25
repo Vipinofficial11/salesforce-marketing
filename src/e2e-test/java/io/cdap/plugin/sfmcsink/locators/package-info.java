@@ -14,18 +14,8 @@
  * the License.
  */
 
-package io.cdap.plugin.utils.enums;
-
 /**
- * Data Retrieval Mode - enum.
+ * Represents SFMC sink plugin - Properties page - Locators.
  */
-public enum DataRetrievalMode {
-  SINGLE_OBJECT("Single Object"),
-  MULTI_OBJECT("Multi Object");
 
-  public final String value;
-
-  DataRetrievalMode(String value) {
-    this.value = value;
-  }
-}
+package io.cdap.plugin.sfmcsink.locators;

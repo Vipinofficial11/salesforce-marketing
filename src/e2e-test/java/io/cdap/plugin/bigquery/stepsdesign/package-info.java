@@ -14,18 +14,7 @@
  * the License.
  */
 
-package io.cdap.plugin.utils.enums;
-
 /**
- * Data Retrieval Mode - enum.
+ * Represent BigQuery common steps.
  */
-public enum DataRetrievalMode {
-  SINGLE_OBJECT("Single Object"),
-  MULTI_OBJECT("Multi Object");
-
-  public final String value;
-
-  DataRetrievalMode(String value) {
-    this.value = value;
-  }
-}
+package io.cdap.plugin.bigquery.stepsdesign;

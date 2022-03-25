@@ -16,16 +16,27 @@
 
 package io.cdap.plugin.utils.enums;
 
+
 /**
- * Data Retrieval Mode - enum.
+ * Sobjects - enum.
  */
-public enum DataRetrievalMode {
-  SINGLE_OBJECT("Single Object"),
-  MULTI_OBJECT("Multi Object");
+
+public enum Sobjects {
+
+  BOUNCE_EVENT("Bounce Event"),
+  DATA_EXTENSION("Data Extension"),
+  EMAIL("Email"),
+  MAILING_LIST("Mailing List"),
+  NOTSENT_EVENT("Notsent Event"),
+  OPEN_EVENT("Open Event"),
+  SENT_EVENT("Sent Event"),
+  UNSUB_EVENT("Unsub Event");
 
   public final String value;
 
-  DataRetrievalMode(String value) {
+  Sobjects(String value) {
     this.value = value;
   }
+
+
 }

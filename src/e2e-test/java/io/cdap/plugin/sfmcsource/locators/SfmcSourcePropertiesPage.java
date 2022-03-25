@@ -17,6 +17,7 @@
 package io.cdap.plugin.sfmcsource.locators;
 
 import io.cdap.e2e.utils.SeleniumDriver;
+import io.cdap.plugin.utils.enums.Sobjects;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -38,13 +39,23 @@ public class SfmcSourcePropertiesPage {
 
   // Single Object Retrieval mode section
   @FindBy(how = How.XPATH, using = "//div[@data-cy='select-objectName']")
-  public static WebElement objectDropdown;
+  public static WebElement objectDropdownForSIngleObjectMode;
 
   @FindBy(how = How.XPATH, using = "//button[@data-cy='get-schema-btn']")
   public static WebElement getSchemaButton;
 
-  @FindBy(how = How.XPATH, using = "//button[@data-cy='dataExtensionKey']")
-  public static WebElement dataExtensionExternalKeyInput;
+  @FindBy(how = How.XPATH, using = "//input[@data-cy='dataExtensionKey']")
+  public static WebElement dataExtensionExternalKeyInputForSingleObjectMode;
+
+  // Multi Object Retrieval mode section
+  @FindBy(how = How.XPATH, using = "//div[@data-cy='multiselect-objectList']")
+  public static WebElement objectDropdownForMultiObjectMode;
+
+  @FindBy(how = How.XPATH, using = "//div[@data-cy='key']")
+  public static WebElement dataExtensionExternalKeyInputForMultiObjectMode;
+
+  @FindBy(how = How.XPATH, using = "//input[@data-cy='tableNameField']")
+  public static WebElement tableNameFieldInput;
 
   // Filter section
   @FindBy(how = How.XPATH, using = "//button[@data-cy='filter']")
@@ -71,4 +82,22 @@ public class SfmcSourcePropertiesPage {
     String xpath = "//li[@role='option'][normalize-space(text()) = '" + option + "']";
     return SeleniumDriver.getDriver().findElement(By.xpath(xpath));
   }
+
+  public static WebElement getObjectCheckBox(String sobjects) {
+    String xpath = "//li[@data-cy='multioption-" + sobjects + "']";
+
+    return SeleniumDriver.getDriver().findElement(By.xpath(xpath));
+  }
+
+  //remove these are for checkbox problem
+  @FindBy(how = How.XPATH, using = "//*[@data-cy='feature-heading']")
+  public static WebElement dismissCheckbox;
+
+
+  @FindBy(how = How.XPATH, using = "//li[@data-cy='multioption-Email']")
+  public static WebElement optionemail;
+
+
+
+
 }

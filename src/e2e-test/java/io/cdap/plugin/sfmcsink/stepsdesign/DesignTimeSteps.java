@@ -14,18 +14,11 @@
  * the License.
  */
 
-package io.cdap.plugin.utils.enums;
+package io.cdap.plugin.sfmcsink.stepsdesign;
 
 /**
- * Data Retrieval Mode - enum.
+ * Represents Salesforce Marketing Cloud - Source plugin - Properties page - steps.
  */
-public enum DataRetrievalMode {
-  SINGLE_OBJECT("Single Object"),
-  MULTI_OBJECT("Multi Object");
 
-  public final String value;
-
-  DataRetrievalMode(String value) {
-    this.value = value;
-  }
+public class DesignTimeSteps {
 }
