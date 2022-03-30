@@ -18,7 +18,7 @@
 @Smoke
 @Regression
 
-Feature: Salesforce Marketing Cloud Source - Design time Scenarios (macro)
+Feature: Salesforce Marketing Cloud Source - Design time Scenarios (macros)
 
   @BATCH-TS-SFMC-DSGN-MACRO-01
   Scenario:Verify user should be able to validate the plugin when Authentication properties are configured with macros
@@ -26,7 +26,7 @@ Feature: Salesforce Marketing Cloud Source - Design time Scenarios (macro)
     And Select data pipeline type as: "Batch"
     And Select plugin: "Salesforce Marketing" from the plugins list as: "Source"
     And Navigate to the properties page of plugin: "Salesforce Marketing"
-    And fill Reference Name property
+    And Enter input plugin property: "referenceName" with value: "Referencename"
     And Click on the Macro button of Property: "objectName" and set the value to: "objectName"
     And Click on the Macro button of Property: "clientId" and set the value to: "clientId"
     And Click on the Macro button of Property: "clientSecret" and set the value to: "clientSecret"
@@ -41,8 +41,12 @@ Feature: Salesforce Marketing Cloud Source - Design time Scenarios (macro)
     And Select data pipeline type as: "Batch"
     And Select plugin: "Salesforce Marketing" from the plugins list as: "Source"
     And Navigate to the properties page of plugin: "Salesforce Marketing"
-    And fill Reference Name property
-    And fill Authentication properties for Salesforce Admin user
+    And Enter input plugin property: "referenceName" with value: "Referencename"
+    And Enter input plugin property: "clientId" with value: "admin.clientid"
+    And Enter input plugin property: "clientSecret" with value: "admin.clientsecret"
+    And Enter input plugin property: "authEndpoint" with value: "admin.authenticationbase.uri"
+    And Enter input plugin property: "soapEndpoint" with value: "admin.soapapi.endpoint"
+    And Enter input plugin property: "restEndpoint" with value: "admin.restapibase.uri"
     And Click on the Macro button of Property: "queryMode" and set the value to: "queryMode"
     And Click on the Macro button of Property: "objectName" and set the value to: "objectName"
     And Click on the Macro button of Property: "dataExtensionKey" and set the value to: "dataExtensionKey"
@@ -54,8 +58,12 @@ Feature: Salesforce Marketing Cloud Source - Design time Scenarios (macro)
     And Select data pipeline type as: "Batch"
     And Select plugin: "Salesforce Marketing" from the plugins list as: "Source"
     And Navigate to the properties page of plugin: "Salesforce Marketing"
-    And fill Reference Name property
-    And fill Authentication properties for Salesforce Admin user
+    And Enter input plugin property: "referenceName" with value: "Referencename"
+    And Enter input plugin property: "clientId" with value: "admin.clientid"
+    And Enter input plugin property: "clientSecret" with value: "admin.clientsecret"
+    And Enter input plugin property: "authEndpoint" with value: "admin.authenticationbase.uri"
+    And Enter input plugin property: "soapEndpoint" with value: "admin.soapapi.endpoint"
+    And Enter input plugin property: "restEndpoint" with value: "admin.restapibase.uri"
     And Click on the Macro button of Property: "queryMode" and set the value to: "queryMode"
     And Click on the Macro button of Property: "objectList" and set the value to: "objectList"
     And Click on the Macro button of Property: "dataExtensionKeyList" and set the value to: "dataExtensionKeyList"
@@ -63,13 +71,17 @@ Feature: Salesforce Marketing Cloud Source - Design time Scenarios (macro)
     Then Validate "Salesforce Marketing" plugin properties
 
   @BATCH-TS-SFMC-DSGN-MACRO-04
-  Scenario:Verify user should be able to validate the plugin when configured for Filter with macros
+  Scenario:Verify user should be able to validate the plugin when configured for Filter Property with macros
     When Open Datafusion Project to configure pipeline
     And Select data pipeline type as: "Batch"
     And Select plugin: "Salesforce Marketing" from the plugins list as: "Source"
     And Navigate to the properties page of plugin: "Salesforce Marketing"
-    And fill Reference Name property
-    And fill Authentication properties for Salesforce Admin user
+    And Enter input plugin property: "referenceName" with value: "Referencename"
+    And Enter input plugin property: "clientId" with value: "admin.clientid"
+    And Enter input plugin property: "clientSecret" with value: "admin.clientsecret"
+    And Enter input plugin property: "authEndpoint" with value: "admin.authenticationbase.uri"
+    And Enter input plugin property: "soapEndpoint" with value: "admin.soapapi.endpoint"
+    And Enter input plugin property: "restEndpoint" with value: "admin.restapibase.uri"
     And Click on the Macro button of Property: "objectName" and set the value to: "objectName"
     And Click on the Macro button of Property: "filter" and set the value to: "filter"
     Then Validate "Salesforce Marketing" plugin properties

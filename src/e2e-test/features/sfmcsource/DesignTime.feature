@@ -18,65 +18,106 @@
 @Regression
 Feature: Salesforce Marketing Cloud Source - Design time scenarios
 
-  #add filters scenario for both run time and
   @BATCH-TS-SFMC-DSGN-01
   Scenario Outline: Verify user should be able to get Output Schema for Single Object Data Retrieval mode
     When Open Datafusion Project to configure pipeline
     And Select data pipeline type as: "Batch"
     And Select plugin: "Salesforce Marketing" from the plugins list as: "Source"
     And Navigate to the properties page of plugin: "Salesforce Marketing"
+    And Enter input plugin property: "referenceName" with value: "Referencename"
     And configure source plugin for Object: "<ObjectName>" in the Single Object mode
-    And fill Authentication properties for Salesforce Admin user
-    Then Validate output schema with expectedSchema "sfmcSourceSchema.unsubevent"
+    And Enter input plugin property: "clientId" with value: "admin.clientid"
+    And Enter input plugin property: "clientSecret" with value: "admin.clientsecret"
+    And Enter input plugin property: "authEndpoint" with value: "admin.authenticationbase.uri"
+    And Enter input plugin property: "soapEndpoint" with value: "admin.soapapi.endpoint"
+    And Enter input plugin property: "restEndpoint" with value: "admin.restapibase.uri"
+    Then Validate output schema with expectedSchema "<ExpectedSchema>"
     Examples:
-      | ObjectName          | ExpectedSchema |
-      | UNSUB_EVENT         |                |
+      | ObjectName    | ExpectedSchema                |
+      | BOUNCE_EVENT  | sfmcSourceSchema.bounceevent  |
+      | EMAIL         | sfmcSourceSchema.email        |
+      | MAILING_LIST  | sfmcSourceSchema.mailinglist  |
+      | NOTSENT_EVENT | sfmcSourceSchema.notsentevent |
+      | OPEN_EVENT    | sfmcSourceSchema.openevent    |
+      | SENT_EVENT    | sfmcSourceSchema.sentevent    |
+      | UNSUB_EVENT   | sfmcSourceSchema.unsubevent   |
 
   @BATCH-TS-SFMC-DSGN-02
-  Scenario: Verify user should be able to get Output Schema for Multi Object Data Retrieval mode
+  Scenario: Verify user should be able to validate the plugin for Multi Object Data Retrieval mode
     When Open Datafusion Project to configure pipeline
     And Select data pipeline type as: "Batch"
     And Select plugin: "Salesforce Marketing" from the plugins list as: "Source"
     And Navigate to the properties page of plugin: "Salesforce Marketing"
-    And fill Authentication properties for Salesforce Admin user
+    And Enter input plugin property: "referenceName" with value: "Referencename"
+    And Enter input plugin property: "clientId" with value: "admin.clientid"
+    And Enter input plugin property: "clientSecret" with value: "admin.clientsecret"
+    And Enter input plugin property: "authEndpoint" with value: "admin.authenticationbase.uri"
+    And Enter input plugin property: "soapEndpoint" with value: "admin.soapapi.endpoint"
+    And Enter input plugin property: "restEndpoint" with value: "admin.restapibase.uri"
     And fill Object List with below listed Objects in the Multi Object mode:
-      | BOUNCE_EVENT | EMAIL |
+      | BOUNCE_EVENT | NOTSENT_EVENT |
     And Enter input plugin property: "tableNameField" with value: "TableName"
     Then Validate "Salesforce Marketing" plugin properties
-#checkbox issue not resolved
 
 
-  # We need to create seperate test for select Data extension, because we have to fill Data extension input
-  #   external keys at that time or we should do it with function
-  #because It will create extra cases in Run time too
-
-  #Filling data Extension key using function
   @BATCH-TS-SFMC-DSGN-03
-  Scenario Outline:Verify user should be able to get Output Schema when plugin is configured with object 'Data Extension'  in Single Object Data Retrieval mode
+  Scenario Outline:Verify user should be able to get Output Schema when plugin is configured with object 'Data Extension' in Single Object Data Retrieval mode
     When Open Datafusion Project to configure pipeline
     And Select data pipeline type as: "Batch"
     And Select plugin: "Salesforce Marketing" from the plugins list as: "Source"
     And Navigate to the properties page of plugin: "Salesforce Marketing"
-    And fill Authentication properties for Salesforce Admin user
+    And Enter input plugin property: "referenceName" with value: "Referencename"
+    And Enter input plugin property: "clientId" with value: "admin.clientid"
+    And Enter input plugin property: "clientSecret" with value: "admin.clientsecret"
+    And Enter input plugin property: "authEndpoint" with value: "admin.authenticationbase.uri"
+    And Enter input plugin property: "soapEndpoint" with value: "admin.soapapi.endpoint"
+    And Enter input plugin property: "restEndpoint" with value: "admin.restapibase.uri"
     And configure source plugin for Object: "<ObjectName>" in the Single Object mode
-    And Enter input plugin property: "dataExtensionKeyList" with value: "Key121"
-    Then Click on the Validate button
-      #verify schema
+    And Enter input plugin property: "dataExtensionKey" with value: "Key121"
+    Then Validate output schema with expectedSchema "<ExpectedSchema>"
+    And Click on the Validate button
     Examples:
-      | ObjectName          |
-      | DATA_EXTENSION      |
+      | ObjectName     | ExpectedSchema                 |
+      | DATA_EXTENSION | sfmcSourceSchema.dataextension |
 
-#Filling directly from step for now
+#Not working
   @BATCH-TS-SFMC-DSGN-04
-  Scenario:Verify user should be able to get Output Schema when plugin is configured with object 'Data Extension'  in Multi Object Data Retrieval mode
+  Scenario:Verify user should be able validate the plugin when configured with object 'Data Extension' in Multi Object Data Retrieval mode
     When Open Datafusion Project to configure pipeline
     And Select data pipeline type as: "Batch"
     And Select plugin: "Salesforce Marketing" from the plugins list as: "Source"
     And Navigate to the properties page of plugin: "Salesforce Marketing"
-    And fill Reference Name property
-    And fill Authentication properties for Salesforce Admin user
+    And Enter input plugin property: "referenceName" with value: "Referencename"
+    And Enter input plugin property: "clientId" with value: "admin.clientid"
+    And Enter input plugin property: "clientSecret" with value: "admin.clientsecret"
+    And Enter input plugin property: "authEndpoint" with value: "admin.authenticationbase.uri"
+    And Enter input plugin property: "soapEndpoint" with value: "admin.soapapi.endpoint"
+    And Enter input plugin property: "restEndpoint" with value: "admin.restapibase.uri"
     And fill Object List with below listed Objects in the Multi Object mode:
-      | DATA_EXTENSION | EMAIL |
-    And Enter input plugin property: "dataExtensionKeyList" with value: "Key121"
+      | DATA_EXTENSION | NOTSENT_EVENT |
+    And Enter input plugin property: "  " with value: "Key122"
+    And Enter input plugin property: "tableNameField" with value: "TableName"
+    And Enter input plugin property: "key" with value: "key1234"
     Then Click on the Validate button
+
+
+  @BATCH-TS-SFMC-DSGN-05
+  Scenario Outline: Verify user should be able to get Output Schema when configured with filter property
+    When Open Datafusion Project to configure pipeline
+    And Select data pipeline type as: "Batch"
+    And Select plugin: "Salesforce Marketing" from the plugins list as: "Source"
+    And Navigate to the properties page of plugin: "Salesforce Marketing"
+    And Enter input plugin property: "referenceName" with value: "Referencename"
+    And configure source plugin for Object: "<ObjectName>" in the Single Object mode
+    And Enter input plugin property: "clientId" with value: "admin.clientid"
+    And Enter input plugin property: "clientSecret" with value: "admin.clientsecret"
+    And Enter input plugin property: "authEndpoint" with value: "admin.authenticationbase.uri"
+    And Enter input plugin property: "soapEndpoint" with value: "admin.soapapi.endpoint"
+    And Enter input plugin property: "restEndpoint" with value: "admin.restapibase.uri"
+    And Enter input plugin property: "filter" with value: "<Filter>"
+    Then Validate output schema with expectedSchema "<ExpectedSchema>"
+    And Click on the Validate button
+    Examples:
+      | ObjectName   | ExpectedSchema               | Filter       |
+      | BOUNCE_EVENT | sfmcSourceSchema.bounceevent | filter.value |
 

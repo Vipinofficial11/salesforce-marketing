@@ -51,7 +51,7 @@ public class SfmcSourcePropertiesPage {
   @FindBy(how = How.XPATH, using = "//div[@data-cy='multiselect-objectList']")
   public static WebElement objectDropdownForMultiObjectMode;
 
-  @FindBy(how = How.XPATH, using = "//div[@data-cy='key']")
+  @FindBy(how = How.XPATH, using = "//div[@data-cy='dataExtensionKeyList']")
   public static WebElement dataExtensionExternalKeyInputForMultiObjectMode;
 
   @FindBy(how = How.XPATH, using = "//input[@data-cy='tableNameField']")
@@ -85,19 +85,8 @@ public class SfmcSourcePropertiesPage {
 
   public static WebElement getObjectCheckBox(String sobjects) {
     String xpath = "//li[@data-cy='multioption-" + sobjects + "']";
-
     return SeleniumDriver.getDriver().findElement(By.xpath(xpath));
   }
-
-  //remove these are for checkbox problem
-  @FindBy(how = How.XPATH, using = "//*[@data-cy='feature-heading']")
-  public static WebElement dismissCheckbox;
-
-
-  @FindBy(how = How.XPATH, using = "//li[@data-cy='multioption-Email']")
-  public static WebElement optionemail;
-
-
 
 
 }

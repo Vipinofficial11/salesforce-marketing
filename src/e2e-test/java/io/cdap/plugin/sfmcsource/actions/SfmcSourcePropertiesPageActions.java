@@ -49,94 +49,31 @@ public class SfmcSourcePropertiesPageActions {
     SeleniumHelper.getPropertiesLocators(SfmcSourcePropertiesPage.class);
   }
 
-  public static void fillReferenceName(String referenceName) {
-    ElementHelper.sendKeys(SfmcSourcePropertiesPage.referenceNameInput, referenceName);
-  }
-
   public static void selectDataRetrievalMode(DataRetrievalMode mode) {
-
+    logger.info("Select dropdown option: " + mode.value);
     ElementHelper.selectDropdownOption(SfmcSourcePropertiesPage.dataRetrievalModeDropdown,
                                        CdfPluginPropertiesLocators.locateDropdownListItem(mode.value));
   }
 
-  public static void fillAuthenticationProperties(String clientId, String clientSecret, String authenticationBaseUri,
-                                                  String soapApiEndpoint, String restApiBaseUri) {
-
-    ElementHelper.sendKeys(SfmcSourcePropertiesPage.clientIdInput, clientId);
-    ElementHelper.sendKeys(SfmcSourcePropertiesPage.clientSecretInput, clientSecret);
-    ElementHelper.sendKeys(SfmcSourcePropertiesPage.authenticationBaseUriInput, authenticationBaseUri);
-    ElementHelper.sendKeys(SfmcSourcePropertiesPage.soapApiEndpointInput, soapApiEndpoint);
-    ElementHelper.sendKeys(SfmcSourcePropertiesPage.restApiBaseUriInput, restApiBaseUri);
-  }
-
-
-  public static void fillAuthenticationPropertiesForSalesforceAdminUser() {
-    SfmcSourcePropertiesPageActions.fillAuthenticationProperties(
-      PluginPropertyUtils.pluginProp("admin.clientid"),
-      PluginPropertyUtils.pluginProp("admin.clientsecret"),
-      PluginPropertyUtils.pluginProp("admin.authenticationbase.uri"),
-      PluginPropertyUtils.pluginProp("admin.soapapi.endpoint"),
-      PluginPropertyUtils.pluginProp("admin.restapibase.uri"));
-
-
-  }
-
-
   public static void configureSourcePluginForObjectNameInSingleObjectMode(Sobjects objectName) {
-    String referenceName = "TestSF" + RandomStringUtils.randomAlphanumeric(7);
-    fillReferenceName(referenceName);
     selectDataRetrievalMode(DataRetrievalMode.SINGLE_OBJECT);
+    logger.info("Select dropdown option: " + objectName.value);
     ElementHelper.selectDropdownOption(SfmcSourcePropertiesPage.objectDropdownForSIngleObjectMode,
                                        CdfPluginPropertiesLocators.locateDropdownListItem(objectName.value));
-
-    if (objectName.value.equals("Data Extension")) {
-       SfmcSourcePropertiesPageActions.fillDataExtensionExternalKeyForSingleObjectMode();
-    }
-  }
-  public static void fillDataExtensionExternalKeyForSingleObjectMode() {
-    String dataExtensionExternalKey = PluginPropertyUtils.pluginProp("singleobject.externalkey");
-    ElementHelper.sendKeys(SfmcSourcePropertiesPage.dataExtensionExternalKeyInputForSingleObjectMode,
-                           dataExtensionExternalKey);
   }
 
-
-
-  public static void fillAuthenticationPropertiesWithInvalidValues() {
-    SfmcSourcePropertiesPageActions.fillAuthenticationProperties(
-      PluginPropertyUtils.pluginProp("invalid.clientid"),
-      PluginPropertyUtils.pluginProp("invalid.clientsecret"),
-      PluginPropertyUtils.pluginProp("invalid.authenticationbase.uri"),
-      PluginPropertyUtils.pluginProp("invalid.soapapi.endpoint"),
-      PluginPropertyUtils.pluginProp("invalid.restapibase.uri"));
-  }
-
-
-  public static void selectObjectNamesInMultiObjectMode(List<Sobjects> objectNames) throws InterruptedException {
+  public static void selectObjectNamesInMultiObjectMode(List<Sobjects> objectNames) {
     int totalSObjects = objectNames.size();
 
-    String referenceName = "TestSF" + RandomStringUtils.randomAlphanumeric(7);
-    fillReferenceName(referenceName);
     selectDataRetrievalMode(DataRetrievalMode.MULTI_OBJECT);
     SfmcSourcePropertiesPage.objectDropdownForMultiObjectMode.click();
 
     for (int i = 0; i < totalSObjects; i++) {
-      //SfmcSourcePropertiesPage.getObjectCheckBox(objectNames.get(i).value).click();
+      logger.info("Select checkbox option: " + objectNames.get(i).value);
       ElementHelper.selectCheckbox(SfmcSourcePropertiesPage.getObjectCheckBox(objectNames.get(i).value));
+    }
 
-      //write the condition when "Data extension" is selcted as option we need to fill a text box
-       }
-//    Actions action = new Actions(SeleniumDriver.getDriver());
-//    action.sendKeys(Keys.ESCAPE);
-
-     //SfmcSourcePropertiesPage.optionemail.click();
-
-      ElementHelper.clickOnElementUsingJsExecutor(SfmcSourcePropertiesPage.dismissCheckbox);
-    //Thread.sleep(5000);
-
-      //SfmcSourcePropertiesPage.dismissCheckbox.click();
-
+    //We need to click on the Plugin Properties page header to dismiss the dialog
+    ElementHelper.clickUsingActions(CdfPluginPropertiesLocators.pluginPropertiesPageHeader);
   }
-
-
-
 }
