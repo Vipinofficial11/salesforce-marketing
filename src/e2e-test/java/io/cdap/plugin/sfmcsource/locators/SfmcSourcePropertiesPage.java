@@ -51,7 +51,7 @@ public class SfmcSourcePropertiesPage {
   @FindBy(how = How.XPATH, using = "//div[@data-cy='multiselect-objectList']")
   public static WebElement objectDropdownForMultiObjectMode;
 
-  @FindBy(how = How.XPATH, using = "//div[@data-cy='dataExtensionKeyList']")
+  @FindBy(how = How.XPATH, using = "//div[@data-cy='key']//input")
   public static WebElement dataExtensionExternalKeyInputForMultiObjectMode;
 
   @FindBy(how = How.XPATH, using = "//input[@data-cy='tableNameField']")
@@ -77,16 +77,8 @@ public class SfmcSourcePropertiesPage {
   @FindBy(how = How.XPATH, using = "//input[@data-cy='restEndpoint']")
   public static WebElement restApiBaseUriInput;
 
-  // Common
-  public static WebElement getDropdownOptionElement(String option) {
-    String xpath = "//li[@role='option'][normalize-space(text()) = '" + option + "']";
-    return SeleniumDriver.getDriver().findElement(By.xpath(xpath));
-  }
-
   public static WebElement getObjectCheckBox(String sobjects) {
     String xpath = "//li[@data-cy='multioption-" + sobjects + "']";
     return SeleniumDriver.getDriver().findElement(By.xpath(xpath));
   }
-
-
 }

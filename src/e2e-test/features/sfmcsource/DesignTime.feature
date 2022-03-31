@@ -73,14 +73,13 @@ Feature: Salesforce Marketing Cloud Source - Design time scenarios
     And Enter input plugin property: "soapEndpoint" with value: "admin.soapapi.endpoint"
     And Enter input plugin property: "restEndpoint" with value: "admin.restapibase.uri"
     And configure source plugin for Object: "<ObjectName>" in the Single Object mode
-    And Enter input plugin property: "dataExtensionKey" with value: "Key121"
+    And Enter input plugin property: "dataExtensionKey" with value: "id"
     Then Validate output schema with expectedSchema "<ExpectedSchema>"
     And Click on the Validate button
     Examples:
       | ObjectName     | ExpectedSchema                 |
       | DATA_EXTENSION | sfmcSourceSchema.dataextension |
 
-#Not working
   @BATCH-TS-SFMC-DSGN-04
   Scenario:Verify user should be able validate the plugin when configured with object 'Data Extension' in Multi Object Data Retrieval mode
     When Open Datafusion Project to configure pipeline
@@ -95,9 +94,8 @@ Feature: Salesforce Marketing Cloud Source - Design time scenarios
     And Enter input plugin property: "restEndpoint" with value: "admin.restapibase.uri"
     And fill Object List with below listed Objects in the Multi Object mode:
       | DATA_EXTENSION | NOTSENT_EVENT |
-    And Enter input plugin property: "  " with value: "Key122"
+    And Enter Data Extension External Keys property with value: "id"
     And Enter input plugin property: "tableNameField" with value: "TableName"
-    And Enter input plugin property: "key" with value: "key1234"
     Then Click on the Validate button
 
 

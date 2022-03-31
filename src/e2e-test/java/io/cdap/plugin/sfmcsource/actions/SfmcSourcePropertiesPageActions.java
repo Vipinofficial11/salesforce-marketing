@@ -76,4 +76,8 @@ public class SfmcSourcePropertiesPageActions {
     //We need to click on the Plugin Properties page header to dismiss the dialog
     ElementHelper.clickUsingActions(CdfPluginPropertiesLocators.pluginPropertiesPageHeader);
   }
+
+  public static void fillDataExtensionExternalKey(String key) {
+    ElementHelper.sendKeys(SfmcSourcePropertiesPage.dataExtensionExternalKeyInputForMultiObjectMode, key);
+  }
 }

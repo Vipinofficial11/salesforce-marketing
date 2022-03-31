@@ -49,7 +49,12 @@ public class DesignTimeSteps implements CdfHelper {
     for (String object : list) {
       objectsList.add(Sobjects.valueOf(object));
     }
+
     SfmcSourcePropertiesPageActions.selectObjectNamesInMultiObjectMode(objectsList);
   }
 
+  @And("Enter Data Extension External Keys property with value: {string}")
+  public void fillDataExtensionExternalKey(String key) {
+    SfmcSourcePropertiesPageActions.fillDataExtensionExternalKey(key);
+  }
 }
