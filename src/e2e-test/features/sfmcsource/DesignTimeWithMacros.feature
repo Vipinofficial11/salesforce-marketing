@@ -67,7 +67,7 @@ Feature: Salesforce Marketing Cloud Source - Design time Scenarios (macros)
     And Click on the Macro button of Property: "queryMode" and set the value to: "queryMode"
     And Click on the Macro button of Property: "objectList" and set the value to: "objectList"
     And Click on the Macro button of Property: "dataExtensionKeyList" and set the value to: "dataExtensionKeyList"
-    And Click on the Macro button of Property: "tableNameField" and set the value to: "tableNameField"
+    And Click on the Macro button of Property: "tableNameField" and set the value to: "tablename"
     Then Validate "Salesforce Marketing" plugin properties
 
   @BATCH-TS-SFMC-DSGN-MACRO-04

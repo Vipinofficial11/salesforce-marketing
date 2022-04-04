@@ -31,13 +31,13 @@ Feature: Salesforce Marketing Cloud Sink - Design time scenarios
     And Enter input plugin property: "clientSecret" with value: "admin.clientsecret"
     And Enter input plugin property: "authEndpoint" with value: "admin.authenticationbase.uri"
     And Enter input plugin property: "soapEndpoint" with value: "admin.soapapi.endpoint"
-    And Select radio button plugin property: "truncateText" with value: "true"
-    And Select radio button plugin property: "failOnError" with value: "true"
-    And Select radio button plugin property: "replaceWithSpaces" with value: "false"
+    And Select radio button plugin property: "truncateText" with value: "<TruncateText>"
+    And Select radio button plugin property: "failOnError" with value: "<FailOnError>"
+    And Select radio button plugin property: "replaceWithSpaces" with value: "<ReplaceWithSpaces>"
     And Replace input plugin property: "maxBatchSize" with value: "1000"
     Then Click on the Validate button
     Examples:
-      | OperationType |
-      | INSERT        |
-      | UPDATE        |
-      | UPSERT        |
+      | OperationType | TruncateText | FailOnError | ReplaceWithSpaces |
+      | INSERT        | TRUE         | FALSE       | TRUE              |
+      | UPDATE        | FALSE        | TRUE        | TRUE              |
+      | UPSERT        | FALSE        | FALSE       | TRUE              |

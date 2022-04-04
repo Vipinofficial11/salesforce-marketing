@@ -100,3 +100,85 @@ Feature: Salesforce Marketing Cloud Sink - Run time scenarios (macros)
       | UPDATE        |
       | UPSERT        |
 
+  @SINK-TS-SFMC-RNTM-MACRO-03 @BQ_SINK_TEST
+  Scenario Outline:Verify user should be able to preview and run pipeline when plugin is configured for Advanced section using macros
+    When Open Datafusion Project to configure pipeline
+    And Select plugin: "BigQuery" from the plugins list as: "Source"
+    And Navigate to the properties page of plugin: "BigQuery"
+    And Configure BigQuery sink plugin for Dataset and Table
+    Then Validate "BigQuery" plugin properties
+    And Close the Plugin Properties page
+    And Select Sink plugin: "SalesforceDataExtension" from the plugins list
+    And Connect source as "BigQuery" and sink as "Salesforce Marketing" to establish connection
+    And Navigate to the properties page of plugin: "Salesforce Marketing"
+    And Enter input plugin property: "referenceName" with value: "Referencename"
+    And Enter input plugin property: "dataExtension" with value: "Key121"
+    And Select radio button plugin property: "operation" with value: "<OperationType>"
+    And Enter input plugin property: "clientId" with value: "admin.clientid"
+    And Enter input plugin property: "clientSecret" with value: "admin.clientsecret"
+    And Enter input plugin property: "authEndpoint" with value: "admin.authenticationbase.uri"
+    And Enter input plugin property: "soapEndpoint" with value: "admin.soapapi.endpoint"
+    And Click on the Macro button of Property: "truncateText" and set the value to: "truncateText"
+    And Click on the Macro button of Property: "failOnError" and set the value to: "failOnError"
+    And Click on the Macro button of Property: "replaceWithSpaces" and set the value to: "replaceWithSpaces"
+    And Click on the Macro button of Property: "maxBatchSize" and set the value to: "maxBatchSize"
+    And Click on the Macro button of Property: "columnMapping" and set the value to: "columnMapping"
+    Then Validate "Salesforce Marketing" plugin properties
+    And Close the Plugin Properties page
+    And Save the pipeline
+    And Preview and run the pipeline
+    And Enter runtime argument value "TRUE" for key "truncateText"
+    And Enter runtime argument value "TRUE" for key "failOnError"
+    And Enter runtime argument value "TRUE" for key "replaceWithSpaces"
+    And Enter runtime argument value "sink.maxbatchsize" for key "maxBatchSize"
+    And Enter runtime argument value "sink.columnmapping" for key "columnMapping"
+    And Run the preview of pipeline with runtime arguments
+    And Verify the preview of pipeline is "successfully"
+    Examples:
+      | OperationType |
+      | INSERT        |
+      | UPDATE        |
+      | UPSERT        |
+
+  @SINK-TS-SFMC-RNTM-MACRO-04 @BQ_SINK_TEST
+  Scenario Outline:Verify user should be able to deploy and run pipeline when plugin is configured for Advanced section using macros
+    When Open Datafusion Project to configure pipeline
+    And Select plugin: "BigQuery" from the plugins list as: "Source"
+    And Navigate to the properties page of plugin: "BigQuery"
+    And Configure BigQuery sink plugin for Dataset and Table
+    Then Validate "BigQuery" plugin properties
+    And Close the Plugin Properties page
+    And Select Sink plugin: "SalesforceDataExtension" from the plugins list
+    And Connect source as "BigQuery" and sink as "Salesforce Marketing" to establish connection
+    And Navigate to the properties page of plugin: "Salesforce Marketing"
+    And Enter input plugin property: "referenceName" with value: "Referencename"
+    And Enter input plugin property: "dataExtension" with value: "Key121"
+    And Select radio button plugin property: "operation" with value: "<OperationType>"
+    And Enter input plugin property: "clientId" with value: "admin.clientid"
+    And Enter input plugin property: "clientSecret" with value: "admin.clientsecret"
+    And Enter input plugin property: "authEndpoint" with value: "admin.authenticationbase.uri"
+    And Enter input plugin property: "soapEndpoint" with value: "admin.soapapi.endpoint"
+    And Click on the Macro button of Property: "truncateText" and set the value to: "truncateText"
+    And Click on the Macro button of Property: "failOnError" and set the value to: "failOnError"
+    And Click on the Macro button of Property: "replaceWithSpaces" and set the value to: "replaceWithSpaces"
+    And Click on the Macro button of Property: "maxBatchSize" and set the value to: "maxBatchSize"
+    And Click on the Macro button of Property: "columnMapping" and set the value to: "columnMapping"
+    Then Validate "Salesforce Marketing" plugin properties
+    And Close the Plugin Properties page
+    And Save the pipeline
+    And Save and Deploy Pipeline
+    And Run the Pipeline in Runtime
+    And Enter runtime argument value "TRUE" for key "truncateText"
+    And Enter runtime argument value "TRUE" for key "failOnError"
+    And Enter runtime argument value "TRUE" for key "replaceWithSpaces"
+    And Enter runtime argument value "sink.maxbatchsize" for key "maxBatchSize"
+    And Enter runtime argument value "sink.columnmapping" for key "columnMapping"
+    And Run the Pipeline in Runtime with runtime arguments
+    And Wait till pipeline is in running state
+    And Open and capture logs
+    And Verify the pipeline status is "Succeeded"
+    Examples:
+      | OperationType |
+      | INSERT        |
+      | UPDATE        |
+      | UPSERT        |

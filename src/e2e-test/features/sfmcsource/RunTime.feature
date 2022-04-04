@@ -32,6 +32,7 @@ Feature: Salesforce Marketing Cloud Source - Run time Scenarios
     And Enter input plugin property: "authEndpoint" with value: "admin.authenticationbase.uri"
     And Enter input plugin property: "soapEndpoint" with value: "admin.soapapi.endpoint"
     And Enter input plugin property: "restEndpoint" with value: "admin.restapibase.uri"
+    And Select dropdown plugin property: "select-queryMode" with option value: "Single Object"
     And configure source plugin for Object: "<ObjectName>" in the Single Object mode
     Then Validate "Salesforce Marketing" plugin properties
     And Capture the generated Output Schema
@@ -62,6 +63,7 @@ Feature: Salesforce Marketing Cloud Source - Run time Scenarios
     And Enter input plugin property: "authEndpoint" with value: "admin.authenticationbase.uri"
     And Enter input plugin property: "soapEndpoint" with value: "admin.soapapi.endpoint"
     And Enter input plugin property: "restEndpoint" with value: "admin.restapibase.uri"
+    And Select dropdown plugin property: "select-queryMode" with option value: "Single Object"
     And configure source plugin for Object: "<ObjectName>" in the Single Object mode
     Then Validate "Salesforce Marketing" plugin properties
     And Capture the generated Output Schema
@@ -81,7 +83,6 @@ Feature: Salesforce Marketing Cloud Source - Run time Scenarios
       | ObjectName   |
       | BOUNCE_EVENT |
 
-
   @BATCH-TS-SFMC-RNTM-03 @BQ_SINK_TEST
   Scenario: Verify user should be able to preview the pipeline when plugin is configured for Object List in Multi Object Data Retrieval mode
     When Open Datafusion Project to configure pipeline
@@ -94,9 +95,10 @@ Feature: Salesforce Marketing Cloud Source - Run time Scenarios
     And Enter input plugin property: "authEndpoint" with value: "admin.authenticationbase.uri"
     And Enter input plugin property: "soapEndpoint" with value: "admin.soapapi.endpoint"
     And Enter input plugin property: "restEndpoint" with value: "admin.restapibase.uri"
+    And Select dropdown plugin property: "select-queryMode" with option value: "Multi Object"
     And fill Object List with below listed Objects in the Multi Object mode:
       | BOUNCE_EVENT | NOTSENT_EVENT |
-    And Enter input plugin property: "tableNameField" with value: "TableName"
+    And Enter input plugin property: "tableNameField" with value: "tablename"
     Then Validate "Salesforce Marketing" plugin properties
     And Close the Plugin Properties page
     And Select Sink plugin: "BigQueryTable" from the plugins list
@@ -121,9 +123,10 @@ Feature: Salesforce Marketing Cloud Source - Run time Scenarios
     And Enter input plugin property: "authEndpoint" with value: "admin.authenticationbase.uri"
     And Enter input plugin property: "soapEndpoint" with value: "admin.soapapi.endpoint"
     And Enter input plugin property: "restEndpoint" with value: "admin.restapibase.uri"
+    And Select dropdown plugin property: "select-queryMode" with option value: "Multi Object"
     And fill Object List with below listed Objects in the Multi Object mode:
       | BOUNCE_EVENT | NOTSENT_EVENT |
-    And Enter input plugin property: "tableNameField" with value: "TableName"
+    And Enter input plugin property: "tableNameField" with value: "tablename"
     Then Validate "Salesforce Marketing" plugin properties
     And Capture the generated Output Schema
     And Close the Plugin Properties page
@@ -150,6 +153,7 @@ Feature: Salesforce Marketing Cloud Source - Run time Scenarios
     And Enter input plugin property: "authEndpoint" with value: "admin.authenticationbase.uri"
     And Enter input plugin property: "soapEndpoint" with value: "admin.soapapi.endpoint"
     And Enter input plugin property: "restEndpoint" with value: "admin.restapibase.uri"
+    And Select dropdown plugin property: "select-queryMode" with option value: "Single Object"
     And configure source plugin for Object: "<ObjectName>" in the Single Object mode
     And Enter input plugin property: "filter" with value: "<Filter>"
     Then Validate "Salesforce Marketing" plugin properties
@@ -181,6 +185,7 @@ Feature: Salesforce Marketing Cloud Source - Run time Scenarios
     And Enter input plugin property: "authEndpoint" with value: "admin.authenticationbase.uri"
     And Enter input plugin property: "soapEndpoint" with value: "admin.soapapi.endpoint"
     And Enter input plugin property: "restEndpoint" with value: "admin.restapibase.uri"
+    And Select dropdown plugin property: "select-queryMode" with option value: "Single Object"
     And configure source plugin for Object: "<ObjectName>" in the Single Object mode
     And Enter input plugin property: "filter" with value: "<Filter>"
     Then Validate "Salesforce Marketing" plugin properties

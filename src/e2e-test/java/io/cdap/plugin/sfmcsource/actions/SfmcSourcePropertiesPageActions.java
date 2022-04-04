@@ -16,24 +16,11 @@
 
 package io.cdap.plugin.sfmcsource.actions;
 
-import io.cdap.cdap.api.data.schema.Schema;
 import io.cdap.e2e.pages.locators.CdfPluginPropertiesLocators;
-import io.cdap.e2e.utils.AssertionHelper;
 import io.cdap.e2e.utils.ElementHelper;
-import io.cdap.e2e.utils.PluginPropertyUtils;
-import io.cdap.e2e.utils.SeleniumDriver;
 import io.cdap.e2e.utils.SeleniumHelper;
-import io.cdap.plugin.sfmc.source.MarketingCloudSource;
-import io.cdap.plugin.sfmc.source.MarketingCloudSourceConfig;
-import io.cdap.plugin.sfmc.source.util.SourceQueryMode;
 import io.cdap.plugin.sfmcsource.locators.SfmcSourcePropertiesPage;
-import io.cdap.plugin.utils.enums.DataRetrievalMode;
 import io.cdap.plugin.utils.enums.Sobjects;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.datanucleus.store.rdbms.autostart.SchemaTable;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,14 +36,7 @@ public class SfmcSourcePropertiesPageActions {
     SeleniumHelper.getPropertiesLocators(SfmcSourcePropertiesPage.class);
   }
 
-  public static void selectDataRetrievalMode(DataRetrievalMode mode) {
-    logger.info("Select dropdown option: " + mode.value);
-    ElementHelper.selectDropdownOption(SfmcSourcePropertiesPage.dataRetrievalModeDropdown,
-                                       CdfPluginPropertiesLocators.locateDropdownListItem(mode.value));
-  }
-
   public static void configureSourcePluginForObjectNameInSingleObjectMode(Sobjects objectName) {
-    selectDataRetrievalMode(DataRetrievalMode.SINGLE_OBJECT);
     logger.info("Select dropdown option: " + objectName.value);
     ElementHelper.selectDropdownOption(SfmcSourcePropertiesPage.objectDropdownForSIngleObjectMode,
                                        CdfPluginPropertiesLocators.locateDropdownListItem(objectName.value));
@@ -65,7 +45,6 @@ public class SfmcSourcePropertiesPageActions {
   public static void selectObjectNamesInMultiObjectMode(List<Sobjects> objectNames) {
     int totalSObjects = objectNames.size();
 
-    selectDataRetrievalMode(DataRetrievalMode.MULTI_OBJECT);
     SfmcSourcePropertiesPage.objectDropdownForMultiObjectMode.click();
 
     for (int i = 0; i < totalSObjects; i++) {

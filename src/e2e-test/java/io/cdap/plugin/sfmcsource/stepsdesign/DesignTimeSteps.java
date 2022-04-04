@@ -18,14 +18,9 @@ package io.cdap.plugin.sfmcsource.stepsdesign;
 
 import io.cdap.e2e.utils.CdfHelper;
 import io.cdap.plugin.sfmcsource.actions.SfmcSourcePropertiesPageActions;
-import io.cdap.plugin.sfmcsource.locators.SfmcSourcePropertiesPage;
-import io.cdap.plugin.utils.enums.DataRetrievalMode;
 import io.cdap.plugin.utils.enums.Sobjects;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
-import io.cucumber.java.en.When;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.datanucleus.store.rdbms.autostart.SchemaTable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,18 +38,17 @@ public class DesignTimeSteps implements CdfHelper {
   }
 
   @And("fill Object List with below listed Objects in the Multi Object mode:")
-  public void selectObjectsInObjectsList(DataTable table)  {
+  public void selectObjectsInObjectsList(DataTable table) {
     List<String> list = table.asList();
 
     for (String object : list) {
       objectsList.add(Sobjects.valueOf(object));
     }
-
     SfmcSourcePropertiesPageActions.selectObjectNamesInMultiObjectMode(objectsList);
   }
 
-  @And("Enter Data Extension External Keys property with value: {string}")
-  public void fillDataExtensionExternalKey(String key) {
+  @And("Enter input plugin property Data Extension external key as: {string}")
+  public void enterInputPluginPropertyDataExtensionExternalKey(String key) {
     SfmcSourcePropertiesPageActions.fillDataExtensionExternalKey(key);
   }
 }

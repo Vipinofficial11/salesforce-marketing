@@ -19,7 +19,7 @@
 Feature: Salesforce Marketing Cloud Sink - Design time validation scenarios
 
   @BATCH-TS-SFMC-DSGN-ERROR-01
-  Scenario: Verify required fields missing validation for 'Reference Name' property
+  Scenario: Verify required fields missing validation for properties
     When Open Datafusion Project to configure pipeline
     And Select data pipeline type as: "Batch"
     And Select Sink plugin: "SalesforceDataExtension" from the plugins list
@@ -28,23 +28,12 @@ Feature: Salesforce Marketing Cloud Sink - Design time validation scenarios
     And Click on the Validate button
     Then Verify mandatory property error for below listed properties:
       | referenceName |
+      | clientId      |
+      | clientSecret  |
+      | authEndpoint  |
+      | soapEndpoint  |
 
   @BATCH-TS-SFMC-DSGN-ERROR-02
-  Scenario: Verify validation message when user leaves Authentication Properties blank
-    When Open Datafusion Project to configure pipeline
-    And Select data pipeline type as: "Batch"
-    And Select Sink plugin: "SalesforceDataExtension" from the plugins list
-    And Navigate to the properties page of plugin: "Salesforce Marketing"
-    And Enter input plugin property: "referenceName" with value: "Referencename"
-    And Enter input plugin property: "dataExtension" with value: "Key121"
-    And Click on the Validate button
-    Then Verify mandatory property error for below listed properties:
-      | clientId     |
-      | clientSecret |
-      | authEndpoint |
-      | soapEndpoint |
-
-  @BATCH-TS-SFMC-DSGN-ERROR-03
   Scenario: Verify validation message when user provides invalid Authentication Properties
     When Open Datafusion Project to configure pipeline
     And Select data pipeline type as: "Batch"
@@ -63,7 +52,7 @@ Feature: Salesforce Marketing Cloud Sink - Design time validation scenarios
       | authEndpoint |
       | soapEndpoint |
 
-  @BATCH-TS-SFMC-DSGN-ERROR-04
+  @BATCH-TS-SFMC-DSGN-ERROR-03
   Scenario: Verify required fields missing validation for Data Extension External Key property
     When Open Datafusion Project to configure pipeline
     And Select data pipeline type as: "Batch"
