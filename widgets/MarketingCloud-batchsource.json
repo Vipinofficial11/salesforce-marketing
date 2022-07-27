@@ -149,9 +149,33 @@
       ]
     },
     {
-      "label": "Authentication",
+      "label": "Connection",
       "properties": [
-        {
+           {
+              "widget-type": "toggle",
+              "label": "Use connection",
+              "name": "useConnection",
+              "widget-attributes": {
+                "on": {
+                  "value": "true",
+                  "label": "YES"
+                },
+                "off": {
+                  "value": "false",
+                  "label": "NO"
+                },
+                "default": "false"
+              }
+            },
+            {
+              "widget-type": "connection-select",
+              "label": "Connection",
+              "name": "connection",
+              "widget-attributes": {
+                "connectionType": "MarketingCloud"
+              }
+            },
+            {
           "widget-type": "textbox",
           "label": "Client ID",
           "name": "clientId",
@@ -253,6 +277,47 @@
         {
           "type": "property",
           "name": "dataExtensionKey"
+        }
+      ]
+    },
+    {
+      "name": "showConnectionProperties ",
+      "condition": {
+        "expression": "useConnection == false"
+      },
+      "show": [
+        {
+          "type": "property",
+          "name": "clientId"
+        },
+        {
+          "type": "property",
+          "name": "clientSecret"
+        },
+        {
+          "type": "property",
+          "name": "authEndpoint"
+        },
+        {
+          "type": "property",
+          "name": "soapEndpoint"
+        },
+        {
+          "type": "property",
+          "name": "restEndpoint"
+        }
+
+      ]
+    },
+    {
+      "name": "showConnectionId",
+      "condition": {
+        "expression": "useConnection == true"
+      },
+      "show": [
+        {
+          "type": "property",
+          "name": "connection"
         }
       ]
     }

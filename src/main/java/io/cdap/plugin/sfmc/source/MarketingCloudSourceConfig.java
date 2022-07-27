@@ -23,8 +23,10 @@ import io.cdap.cdap.api.annotation.Macro;
 import io.cdap.cdap.api.annotation.Name;
 import io.cdap.cdap.api.plugin.PluginConfig;
 import io.cdap.cdap.etl.api.FailureCollector;
+import io.cdap.plugin.common.ConfigUtil;
 import io.cdap.plugin.common.Constants;
 import io.cdap.plugin.common.IdUtils;
+import io.cdap.plugin.sfmc.connector.MarketingConnectorConfig;
 import io.cdap.plugin.sfmc.source.util.MarketingCloudConstants;
 import io.cdap.plugin.sfmc.source.util.SourceObject;
 import io.cdap.plugin.sfmc.source.util.SourceQueryMode;
@@ -34,8 +36,10 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
 
 /**
  * Configuration for the {@link MarketingCloudSource}.
@@ -108,33 +112,21 @@ public class MarketingCloudSourceConfig extends PluginConfig {
   @Description("The WHERE clause used to filter data from Marketing cloud objects.")
   private String filter;
 
-  @Name(MarketingCloudConstants.PROPERTY_CLIENT_ID)
-  @Macro
-  @Description("OAuth2 client ID associated with an installed package in the Salesforce Marketing Cloud.")
-  private String clientId;
+  @Name(ConfigUtil.NAME_USE_CONNECTION)
+  @Nullable
+  @Description("Whether to use an existing connection.")
+  private Boolean useConnection;
 
-  @Name(MarketingCloudConstants.PROPERTY_CLIENT_SECRET)
+  @Name(ConfigUtil.NAME_CONNECTION)
   @Macro
-  @Description("OAuth2 client secret associated with an installed package in the Salesforce Marketing Cloud.")
-  private String clientSecret;
+  @Nullable
+  @Description("The existing connection to use.")
+  private MarketingConnectorConfig connection;
 
-  @Name(MarketingCloudConstants.PROPERTY_API_ENDPOINT)
-  @Macro
-  @Description("The REST API Base URL associated for the Server-to-Server API integration. " +
-    "For example, https://instance.rest.marketingcloudapis.com/")
-  private String restEndpoint;
-
-  @Name(MarketingCloudConstants.PROPERTY_AUTH_API_ENDPOINT)
-  @Macro
-  @Description("Authentication Base URL associated for the Server-to-Server API integration. " +
-    "For example, https://instance.auth.marketingcloudapis.com/")
-  private String authEndpoint;
-
-  @Name(MarketingCloudConstants.PROPERTY_SOAP_API_ENDPOINT)
-  @Macro
-  @Description("The SOAP Endpoint URL associated for the Server-to-Server API integration. " +
-    "For example, https://instance.soap.marketingcloudapis.com/Service.asmx")
-  private String soapEndpoint;
+  @Nullable
+  public MarketingConnectorConfig getConnection() {
+    return connection;
+  }
 
   /**
    * Constructor for MarketingCloudSourceConfig object.
@@ -165,12 +157,7 @@ public class MarketingCloudSourceConfig extends PluginConfig {
     this.dataExtensionKeys = dataExtensionKeys;
     this.tableNameField = tableNameField;
     this.filter = filter;
-    this.clientId = clientId;
-    this.clientSecret = clientSecret;
-    this.restEndpoint = restEndpoint;
-    this.authEndpoint = authEndpoint;
-    this.soapEndpoint = soapEndpoint;
-
+    this.connection = new MarketingConnectorConfig(clientId, clientSecret, restEndpoint, authEndpoint, soapEndpoint);
   }
 
   public String getReferenceName() {
@@ -296,27 +283,6 @@ public class MarketingCloudSourceConfig extends PluginConfig {
     return filter;
   }
 
-  public String getClientId() {
-    return clientId;
-  }
-
-  public String getClientSecret() {
-    return clientSecret;
-  }
-
-  public String getRestEndpoint() {
-    return restEndpoint;
-  }
-
-  public String getAuthEndpoint() {
-    return authEndpoint;
-  }
-
-  public String getSoapEndpoint() {
-    return soapEndpoint;
-  }
-
-
   /**
    * Validates {@link MarketingCloudSourceConfig} instance.
    */
@@ -344,32 +310,7 @@ public class MarketingCloudSourceConfig extends PluginConfig {
     if (!shouldConnect()) {
       return;
     }
-
-    if (Util.isNullOrEmpty(clientId)) {
-      collector.addFailure("Client ID must be specified.", null)
-        .withConfigProperty(MarketingCloudConstants.PROPERTY_CLIENT_ID);
-    }
-
-    if (Util.isNullOrEmpty(clientSecret)) {
-      collector.addFailure("Client Secret must be specified.", null)
-        .withConfigProperty(MarketingCloudConstants.PROPERTY_CLIENT_SECRET);
-    }
-
-    if (Util.isNullOrEmpty(restEndpoint)) {
-      collector.addFailure(" REST Endpoint must be specified.", null)
-        .withConfigProperty(MarketingCloudConstants.PROPERTY_API_ENDPOINT);
-    }
-
-    if (Util.isNullOrEmpty(authEndpoint)) {
-      collector.addFailure("Auth Endpoint  must be specified.", null)
-        .withConfigProperty(MarketingCloudConstants.PROPERTY_AUTH_API_ENDPOINT);
-    }
-
-    if (Util.isNullOrEmpty(soapEndpoint)) {
-      collector.addFailure("Soap Endpoint must be specified.", null)
-        .withConfigProperty(MarketingCloudConstants.PROPERTY_SOAP_API_ENDPOINT);
-    }
-
+      connection.validateCredentialsFields(collector);
     collector.getOrThrowException();
     validateSalesforceConnection(collector);
   }
@@ -377,7 +318,9 @@ public class MarketingCloudSourceConfig extends PluginConfig {
   @VisibleForTesting
   void validateSalesforceConnection(FailureCollector collector) {
     try {
-      MarketingCloudClient.create(clientId, clientSecret, authEndpoint, soapEndpoint);
+        MarketingCloudClient.create(connection.getClientId(), connection.getClientSecret(),
+                                    connection.getAuthEndpoint(),
+                                    connection.getSoapEndpoint());
     } catch (ETSdkException e) {
       collector.addFailure("Unable to connect to Salesforce Instance.",
                            "Ensure properties like Client ID, Client Secret, API Endpoint " +

@@ -123,7 +123,8 @@ public class MarketingCloudDataExtensionSinkTest {
       Assert.fail("Exception is thrown for empty client_id");
     } catch (ValidationException e) {
       Assert.assertEquals(1, e.getFailures().size());
-      Assert.assertEquals("Errors were encountered during validation.", e.getMessage());
+      Assert.assertEquals("Errors were encountered during validation. Error while validating Marketing " +
+                            "Cloud client: authEndPoint/v2/token: bad URL", e.getMessage());
     }
   }
 

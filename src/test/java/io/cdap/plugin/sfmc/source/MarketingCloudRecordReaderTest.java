@@ -132,7 +132,7 @@ public class MarketingCloudRecordReaderTest {
                                                                                            "restEndPoint",
                                                                                            AUTH_ENDPOINT,
                                                                                            SOAP_ENDPOINT);
-    Assert.assertEquals("restEndPoint", marketingCloudSourceConfig.getRestEndpoint());
+    Assert.assertEquals("restEndPoint", marketingCloudSourceConfig.getConnection().getRestEndpoint());
     Assert.assertEquals("DE", marketingCloudSourceConfig.getDataExtensionKey());
     Assert.assertEquals(SourceQueryMode.SINGLE_OBJECT, marketingCloudSourceConfig.getQueryMode());
     Assert.assertEquals(null, marketingCloudSourceConfig.getDataExtensionKeys());
