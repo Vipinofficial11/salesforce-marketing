@@ -140,15 +140,15 @@ public class MarketingCloudSourceConfig extends PluginConfig {
    * @param tableNameField    The field name to hold the table name value
    * @param clientId          The Salesforce Marketing Cloud Client Id
    * @param clientSecret      The Salesforce Marketing Cloud Client Secret
-   * @param restEndpoint      The REST API endpoint for Salesforce Marketing Cloud
-   * @param authEndpoint      The AUTH API endpoint for Salesforce Marketing Cloud
+     * @param authEndpoint      The AUTH API endpoint for Salesforce Marketing Cloud
    * @param soapEndpoint      The SOAP API endpoint for Salesforce Marketing Cloud
    */
   public MarketingCloudSourceConfig(String referenceName, String queryMode, @Nullable String objectName,
                                     @Nullable String dataExtensionKey, @Nullable String objectList,
                                     @Nullable String dataExtensionKeys, @Nullable String tableNameField,
                                     @Nullable String filter, String clientId, String clientSecret,
-                                    String restEndpoint, String authEndpoint, String soapEndpoint) {
+                                    //String restEndpoint,
+                                    String authEndpoint, String soapEndpoint) {
     this.referenceName = referenceName;
     this.queryMode = queryMode;
     this.objectName = objectName;
@@ -157,7 +157,7 @@ public class MarketingCloudSourceConfig extends PluginConfig {
     this.dataExtensionKeys = dataExtensionKeys;
     this.tableNameField = tableNameField;
     this.filter = filter;
-    this.connection = new MarketingConnectorConfig(clientId, clientSecret, restEndpoint, authEndpoint, soapEndpoint);
+    this.connection = new MarketingConnectorConfig(clientId, clientSecret, authEndpoint, soapEndpoint);
   }
 
   public String getReferenceName() {
@@ -327,7 +327,6 @@ public class MarketingCloudSourceConfig extends PluginConfig {
                              ", Soap Endpoint, Auth Endpoint are correct.")
         .withConfigProperty(MarketingCloudConstants.PROPERTY_CLIENT_ID)
         .withConfigProperty(MarketingCloudConstants.PROPERTY_CLIENT_SECRET)
-        .withConfigProperty(MarketingCloudConstants.PROPERTY_API_ENDPOINT)
         .withConfigProperty(MarketingCloudConstants.PROPERTY_AUTH_API_ENDPOINT)
         .withConfigProperty(MarketingCloudConstants.PROPERTY_SOAP_API_ENDPOINT)
         .withStacktrace(e.getStackTrace());
@@ -413,7 +412,6 @@ public class MarketingCloudSourceConfig extends PluginConfig {
     return !containsMacro(MarketingCloudConstants.PROPERTY_CLIENT_ID) &&
       !containsMacro(MarketingCloudConstants.PROPERTY_CLIENT_SECRET) &&
       !containsMacro(MarketingCloudConstants.PROPERTY_API_ENDPOINT) &&
-      !containsMacro(MarketingCloudConstants.PROPERTY_AUTH_API_ENDPOINT) &&
-      !containsMacro(MarketingCloudConstants.PROPERTY_SOAP_API_ENDPOINT);
+      !containsMacro(MarketingCloudConstants.PROPERTY_AUTH_API_ENDPOINT);
   }
 }

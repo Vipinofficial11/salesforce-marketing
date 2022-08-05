@@ -38,14 +38,6 @@
           "widget-attributes" : {
             "placeholder": "Salesforce SOAP API Endpoint e.g. https://instance.Salesforce.soap.marketingcloudapis.com/Service.asmx"
           }
-        },
-        {
-          "widget-type": "textbox",
-          "label": "REST API Base URI",
-          "name": "restEndpoint",
-          "widget-attributes" : {
-            "placeholder": "Salesforce REST API Endpoint e.g. https://instance.rest.marketingcloudapis.com"
-          }
         }
       ]
     }

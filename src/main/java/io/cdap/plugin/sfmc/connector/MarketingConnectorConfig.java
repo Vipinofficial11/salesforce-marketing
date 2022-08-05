@@ -39,12 +39,6 @@ public class MarketingConnectorConfig extends PluginConfig {
   @Description("OAuth2 client secret associated with an installed package in the Salesforce Marketing Cloud.")
   private final String clientSecret;
 
-  @Name(MarketingCloudConstants.PROPERTY_API_ENDPOINT)
-  @Macro
-  @Description("The REST API Base URL associated for the Server-to-Server API integration. " +
-    "For example, https://instance.rest.marketingcloudapis.com/")
-  private final String restEndpoint;
-
   @Name(MarketingCloudConstants.PROPERTY_AUTH_API_ENDPOINT)
   @Macro
   @Description("Authentication Base URL associated for the Server-to-Server API integration. " +
@@ -57,11 +51,9 @@ public class MarketingConnectorConfig extends PluginConfig {
     "For example, https://instance.soap.marketingcloudapis.com/Service.asmx")
   private final String soapEndpoint;
 
-  public MarketingConnectorConfig(String clientId, String clientSecret, String restEndpoint,
-                                   String authEndpoint, String soapEndpoint) {
+  public MarketingConnectorConfig(String clientId, String clientSecret, String authEndpoint, String soapEndpoint) {
     this.clientId = clientId;
     this.clientSecret = clientSecret;
-    this.restEndpoint = restEndpoint;
     this.authEndpoint = authEndpoint;
     this.soapEndpoint = soapEndpoint;
   }
@@ -74,10 +66,6 @@ public class MarketingConnectorConfig extends PluginConfig {
     return clientSecret;
   }
 
-  public String getRestEndpoint() {
-    return restEndpoint;
-  }
-
   public String getAuthEndpoint() {
     return authEndpoint;
   }
@@ -85,6 +73,7 @@ public class MarketingConnectorConfig extends PluginConfig {
   public String getSoapEndpoint() {
     return soapEndpoint;
   }
+
   /**
    * validates all the fields which are mandatory for the connection.
    */
@@ -98,11 +87,6 @@ public class MarketingConnectorConfig extends PluginConfig {
     if (Util.isNullOrEmpty(clientSecret)) {
       collector.addFailure("Client Secret must be specified.", null)
         .withConfigProperty(MarketingCloudConstants.PROPERTY_CLIENT_SECRET);
-    }
-
-    if (Util.isNullOrEmpty(restEndpoint)) {
-      collector.addFailure(" REST Endpoint must be specified.", null)
-        .withConfigProperty(MarketingCloudConstants.PROPERTY_API_ENDPOINT);
     }
 
     if (Util.isNullOrEmpty(authEndpoint)) {

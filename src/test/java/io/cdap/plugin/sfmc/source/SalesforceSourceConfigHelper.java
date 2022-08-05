@@ -118,7 +118,7 @@ public class SalesforceSourceConfigHelper {
     public MarketingCloudSourceConfig build() {
       return new MarketingCloudSourceConfig(referenceName, queryMode, objectName, dataExtensionKey, objectList,
                                             dataExtensionKeys, tableNameField, filter, clientId, clientSecret,
-                                            restEndpoint, authEndpoint, soapEndpoint);
+                                             authEndpoint, soapEndpoint);
     }
   }
 }

@@ -24,6 +24,11 @@ import io.cdap.cdap.api.annotation.Name;
 import io.cdap.cdap.api.data.schema.Schema;
 import io.cdap.cdap.api.plugin.PluginConfig;
 import io.cdap.cdap.etl.api.FailureCollector;
+import io.cdap.plugin.common.ConfigUtil;
+import io.cdap.plugin.sfmc.connector.MarketingConnectorConfig;
+import io.cdap.plugin.sfmc.source.MarketingCloudClient;
+import io.cdap.plugin.sfmc.source.util.MarketingCloudConstants;
+import scala.reflect.internal.Trees;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -36,9 +41,10 @@ import javax.annotation.Nullable;
  * Configuration for Marketing Cloud plugins.
  */
 public class MarketingCloudConf extends PluginConfig {
+
+ public static final String DATA_EXTENSION = "dataExtension";
   public static final String CLIENT_ID = "clientId";
   public static final String CLIENT_SECRET = "clientSecret";
-  public static final String DATA_EXTENSION = "dataExtension";
   public static final String AUTH_ENDPOINT = "authEndpoint";
   public static final String SOAP_ENDPOINT = "soapEndpoint";
   public static final String BATCH_SIZE = "maxBatchSize";
@@ -51,30 +57,13 @@ public class MarketingCloudConf extends PluginConfig {
   @Description("This will be used to uniquely identify this sink for lineage, annotating metadata, etc.")
   private String referenceName;
 
-  @Macro
-  @Name(CLIENT_ID)
-  @Description("Client ID to use when authenticating with the Marketing Cloud.")
-  private String clientId;
 
-  @Macro
-  @Name(CLIENT_SECRET)
-  @Description("Client secret to use when authenticating with the Marketing Cloud.")
-  private String clientSecret;
 
   @Macro
   @Name(DATA_EXTENSION)
   @Description("Key of the Marketing Cloud Data Extension to insert into.")
   private String dataExtension;
 
-  @Macro
-  @Name(AUTH_ENDPOINT)
-  @Description("Endpoint to use when authenticating with the Marketing Cloud.")
-  private String authEndpoint;
-
-  @Macro
-  @Name(SOAP_ENDPOINT)
-  @Description("Endpoint to use when communicating with the Marketing Cloud SOAP API.")
-  private String soapEndpoint;
 
   @Macro
   @Nullable
@@ -112,29 +101,31 @@ public class MarketingCloudConf extends PluginConfig {
   @Description("Whether to truncate text that is longer than the max length specified in the data extension column.")
   private Boolean truncateText;
 
+  @Name(ConfigUtil.NAME_USE_CONNECTION)
+  @Nullable
+  @Description("Whether to use an existing connection.")
+  private Boolean useConnection;
+
+  @Name(ConfigUtil.NAME_CONNECTION)
+  @Macro
+  @Nullable
+  @Description("The existing connection to use.")
+  private MarketingConnectorConfig connection;
+  public MarketingConnectorConfig getConnection() {
+    return connection;
+  }
+
   String getReferenceName() {
     return referenceName;
   }
 
-  String getClientId() {
-    return clientId;
-  }
 
-  String getClientSecret() {
-    return clientSecret;
-  }
 
   String getDataExtension() {
     return dataExtension;
   }
 
-  String getAuthEndpoint() {
-    return authEndpoint;
-  }
 
-  String getSoapEndpoint() {
-    return soapEndpoint;
-  }
 
   int getMaxBatchSize() {
     return maxBatchSize == null ? 500 : maxBatchSize;
@@ -163,10 +154,6 @@ public class MarketingCloudConf extends PluginConfig {
                             @Nullable String columnMapping, Boolean failOnError, Boolean replaceWithSpaces,
                             Boolean truncateText) {
     this.referenceName = referenceName;
-    this.clientId = clientId;
-    this.clientSecret = clientSecret;
-    this.authEndpoint = authEndpoint;
-    this.soapEndpoint = soapEndpoint;
     this.maxBatchSize = maxBatchSize;
     this.operation = operation;
     this.columnMapping = columnMapping;
@@ -174,6 +161,8 @@ public class MarketingCloudConf extends PluginConfig {
     this.replaceWithSpaces = replaceWithSpaces;
     this.truncateText = truncateText;
     this.dataExtension = dataExtension;
+    this.connection = new MarketingConnectorConfig(clientId, clientSecret, authEndpoint,
+                                                   soapEndpoint);
   }
 
   Map<String, String> getColumnMapping(@Nullable Schema originalSchema, FailureCollector collector) {
@@ -217,8 +206,10 @@ public class MarketingCloudConf extends PluginConfig {
     if (!containsMacro(CLIENT_ID) && !containsMacro(CLIENT_SECRET) && !containsMacro(DATA_EXTENSION) &&
       !containsMacro(AUTH_ENDPOINT) && !containsMacro(SOAP_ENDPOINT)) {
       try {
-        DataExtensionClient client = DataExtensionClient.create(dataExtension, clientId, clientSecret,
-                                                                authEndpoint, soapEndpoint);
+        DataExtensionClient client = DataExtensionClient.create(dataExtension, connection.getClientId(),
+                                                                connection.getClientSecret(),
+                                                                connection.getAuthEndpoint(),
+                                                                connection.getSoapEndpoint());
         client.validateSchemaCompatibility(inputSchema, collector);
       } catch (ETSdkException e) {
         collector.addFailure("Error while validating Marketing Cloud client: " + e.getMessage(), null)

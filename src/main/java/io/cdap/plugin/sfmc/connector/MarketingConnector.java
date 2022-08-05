@@ -42,7 +42,6 @@ import java.io.IOException;
 @Description("Connection to access data from Salesforce Marketing Objects.")
 
 public class MarketingConnector implements Connector {
-  private static final Logger LOG = LoggerFactory.getLogger(MarketingConnector.class);
   private final MarketingConnectorConfig config;
 
   MarketingConnector(MarketingConnectorConfig config) {
