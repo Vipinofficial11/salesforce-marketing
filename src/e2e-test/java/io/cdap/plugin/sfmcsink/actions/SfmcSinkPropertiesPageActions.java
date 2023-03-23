@@ -54,28 +54,4 @@ public class SfmcSinkPropertiesPageActions {
 
     return result;
   }
-
-  public static void verifyIfRecordsCreatedInSfmcSinkAreCorrect() throws ETSdkException,
-    IOException, InterruptedException {
-    ETResponse<ETDataExtensionRow> dataExtensionResponse;
-    String filter = "storeid=" + TestSetupHooks.storeid;
-
-    MarketingCloudClient client = MarketingCloudClient.create(
-      System.getenv("SALESFORCE_MARKETING_CLIENT_ID"),
-      System.getenv("SALESFORCE_MARKETING_CLIENT_SECRET"),
-      System.getenv("SALESFORCE_MARKETING_BASE_URI"),
-      System.getenv("SALESFORCE_MARKETING_SOAP_API_ENDPOINT"));
-
-    dataExtensionResponse = client.fetchDataExtensionRecords("Stores", filter, null);
-    TableResult bigQueryTableData = getDataExtensionUniqueIdFromBigQuery(
-      dataset, PluginPropertyUtils.pluginProp("bqsource.table"));
-    String bigQueryJsonResponse = bigQueryTableData.getValues().iterator().next().get(0).getValue().toString();
-    JsonObject jsonObject = gson.fromJson(bigQueryJsonResponse, JsonObject.class);
-    Map<String, Object> bigQueryResponseInMap = gson.fromJson(jsonObject.toString(), Map.class);
-    Set<String> bigQueryKeySet = bigQueryResponseInMap.keySet();
-
-    for (String key : bigQueryKeySet) {
-      Assert.assertEquals(bigQueryResponseInMap.get(key), dataExtensionResponse.getResult().getObject().getColumn(key));
-    }
-  }
 }

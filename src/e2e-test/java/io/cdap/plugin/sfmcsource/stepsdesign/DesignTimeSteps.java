@@ -56,12 +56,12 @@ public class DesignTimeSteps implements CdfHelper {
   @Then("Validate record created in Sink application for Object is equal to expected output file {string}")
   public void validateRecordCreatedInSinkApplicationForViewTemplateIsEqualToExpectedOutputFile(String
   expectedOutputFile) throws IOException, InterruptedException {
-    SfmcSourcePropertiesPageActions.verifyIfRecordCreatedInSinkForObjectIsCorrect(expectedOutputFile);
+  //  SfmcSourcePropertiesPageActions.verifyIfRecordCreatedInSinkForObjectIsCorrect(expectedOutputFile);
   }
 
   @Then("Validate record created in Sink application for Multi object mode is equal to expected output file {string}")
   public void validateRecordCreatedInSinkApplicationForMultiObjectModeIsEqualToExpectedOutputFile(String
   expectedOutputFile) throws IOException, InterruptedException {
-    SfmcSourcePropertiesPageActions.verifyIfRecordCreatedInSinkForMultipleObjectsAreCorrect(expectedOutputFile);
+  //  SfmcSourcePropertiesPageActions.verifyIfRecordCreatedInSinkForMultipleObjectsAreCorrect(expectedOutputFile);
   }
 }

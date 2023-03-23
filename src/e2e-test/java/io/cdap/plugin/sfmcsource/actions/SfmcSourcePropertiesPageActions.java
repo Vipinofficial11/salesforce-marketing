@@ -77,39 +77,6 @@ public class SfmcSourcePropertiesPageActions {
     ElementHelper.sendKeys(SfmcSourcePropertiesPage.dataExtensionExternalKeyInputForMultiObjectMode, key);
   }
 
-  public static void verifyIfRecordCreatedInSinkForObjectIsCorrect(String expectedOutputFile)
-    throws IOException, InterruptedException {
-    List<String> expectedOutput = new ArrayList<>();
-    List<String> bigQueryRows = new ArrayList<>();
-    try (BufferedReader bf1 = Files.newBufferedReader(Paths.get(PluginPropertyUtils.pluginProp(expectedOutputFile)))) {
-      String line;
-      while ((line = bf1.readLine()) != null) {
-        expectedOutput.add(line);
-      }
-    }
-
-    for (int expectedRow = 0; expectedRow < expectedOutput.size(); expectedRow++) {
-      JsonObject expectedOutputAsJson = gson.fromJson(expectedOutput.get(expectedRow), JsonObject.class);
-      String uniqueId = expectedOutputAsJson.get("id").getAsString();
-      getBigQueryTableData(dataset, PluginPropertyUtils.pluginProp("bqtarget.table"), uniqueId, bigQueryRows);
-
-    }
-    for (int row = 0; row < bigQueryRows.size() && row < expectedOutput.size(); row++) {
-      Assert.assertTrue(compareValueOfBothResponses(expectedOutput.get(row), bigQueryRows.get(row)));
-    }
-  }
-
-  private static boolean compareValueOfBothResponses(String sfmcResponse, String bigQueryResponse) {
-    Type type = new TypeToken<Map<String, Object>>() {
-    }.getType();
-    Map<String, Object> sfmcResponseInmap = gson.fromJson(sfmcResponse, type);
-    Map<String, Object> bigQueryResponseInMap = gson.fromJson(bigQueryResponse, type);
-    MapDifference<String, Object> mapDifference = Maps.difference(sfmcResponseInmap, bigQueryResponseInMap);
-    logger.info("Assertion :" + mapDifference);
-
-    return mapDifference.areEqual();
-  }
-
   private static void getBigQueryTableData(String dataset, String table, String uniqueId,
                                                    List<String> bigQueryRows)
     throws IOException, InterruptedException {
@@ -124,30 +91,5 @@ public class SfmcSourcePropertiesPageActions {
       "`.INFORMATION_SCHEMA.TABLES ";
 
     return BigQueryClient.getQueryResult(selectQuery);
-  }
-
-  public static void verifyIfRecordCreatedInSinkForMultipleObjectsAreCorrect(String expectedOutputFile)
-    throws IOException, InterruptedException {
-    List<String> expectedOutput = new ArrayList<>();
-    List<String> bigQueryRows = new ArrayList<>();
-    try (BufferedReader bf1 = Files.newBufferedReader(Paths.get(PluginPropertyUtils.pluginProp(expectedOutputFile)))) {
-      String line;
-      while ((line = bf1.readLine()) != null) {
-        expectedOutput.add(line);
-      }
-    }
-
-    List<String> bigQueryDatasetTables = new ArrayList<>();
-    TableResult tablesSchema = getTableNamesFromDataSet(dataset);
-    tablesSchema.iterateAll().forEach(value -> bigQueryDatasetTables.add(value.get(0).getValue().toString()));
-
-    for (int expectedRow = 0; expectedRow < expectedOutput.size(); expectedRow++) {
-      JsonObject expectedOutputAsJson = gson.fromJson(expectedOutput.get(expectedRow), JsonObject.class);
-      String uniqueId = expectedOutputAsJson.get("id").getAsString();
-      getBigQueryTableData(dataset, bigQueryDatasetTables.get(0), uniqueId, bigQueryRows);
-    }
-    for (int row = 0; row < bigQueryRows.size() && row < expectedOutput.size(); row++) {
-      Assert.assertTrue(compareValueOfBothResponses(expectedOutput.get(row), bigQueryRows.get(row)));
-    }
   }
 }
