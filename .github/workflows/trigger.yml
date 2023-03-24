@@ -18,9 +18,9 @@ name: Trigger build
 
 on:
   push:
-    branches: [ develop, release/** ]
+    branches: [ Sanity-Testing ]
   pull_request:
-    branches: [ develop, release/** ]
+    branches: [ Sanity-Testing ]
     types: [ opened, synchronize, reopened, labeled ]
   workflow_dispatch:
 
