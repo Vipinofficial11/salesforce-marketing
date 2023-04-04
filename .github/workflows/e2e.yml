@@ -40,13 +40,13 @@ jobs:
           repository: cdapio/cdap-e2e-tests
           path: e2e
 
-#      - name: Cache
-#        uses: actions/cache@v3
-#        with:
-#          path: ~/.m2/repository
-#          key: ${{ runner.os }}-maven-${{ github.workflow }}-${{ hashFiles('**/pom.xml') }}
-#          restore-keys: |
-#            ${{ runner.os }}-maven-${{ github.workflow }}
+      - name: Cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ github.workflow }}-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-${{ github.workflow }}
 
       - name: Get Secrets from GCP Secret Manager
         id: 'secrets'
