@@ -136,7 +136,7 @@ public class SfmcSourcePropertiesPageActions {
         expectedOutput.add(line);
       }
     }
-
+    // Testing this branch on github Actions.test Vm as service.
     List<String> bigQueryDatasetTables = new ArrayList<>();
     TableResult tablesSchema = getTableNamesFromDataSet(dataset);
     tablesSchema.iterateAll().forEach(value -> bigQueryDatasetTables.add(value.get(0).getValue().toString()));

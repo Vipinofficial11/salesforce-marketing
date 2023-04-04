@@ -667,12 +667,6 @@
       <dependencyManagement>
         <dependencies>
           <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>31.0.1-jre</version>
-            <scope>compile</scope>
-          </dependency>
-          <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>1.2.8</version>
@@ -683,8 +677,13 @@
         <dependency>
           <groupId>io.cdap.tests.e2e</groupId>
           <artifactId>cdap-e2e-framework</artifactId>
-          <version>0.1.0-SNAPSHOT</version>
+          <version>0.2.0-SNAPSHOT</version>
           <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>com.google.guava</groupId>
+          <artifactId>guava</artifactId>
+          <version>31.1-jre</version>
         </dependency>
       </dependencies>
     </profile>
