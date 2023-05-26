@@ -149,6 +149,7 @@ public class SfmcSourcePropertiesPageActions {
     }
     for (int row = 0; row < bigQueryRows.size() && row < expectedOutput.size(); row++) {
       Assert.assertTrue(compareValueOfBothResponses(expectedOutput.get(row), bigQueryRows.get(row)));
+    //Test1
     }
   }
 }
