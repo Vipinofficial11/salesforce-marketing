@@ -32,6 +32,7 @@ import io.cdap.plugin.utils.enums.Sobjects;
 import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -111,7 +112,7 @@ public class SfmcSourcePropertiesPageActions {
   }
 
   private static void getBigQueryTableData(String dataset, String table, String uniqueId,
-                                                   List<String> bigQueryRows)
+                                           List<String> bigQueryRows)
     throws IOException, InterruptedException {
     String selectQuery = "SELECT TO_JSON(t) FROM `" + projectId + "." + dataset + "." + table + "` AS t WHERE " +
       "id='" + uniqueId + "' ";
@@ -148,6 +149,7 @@ public class SfmcSourcePropertiesPageActions {
     }
     for (int row = 0; row < bigQueryRows.size() && row < expectedOutput.size(); row++) {
       Assert.assertTrue(compareValueOfBothResponses(expectedOutput.get(row), bigQueryRows.get(row)));
+    //Test1
     }
   }
 }

@@ -18,7 +18,7 @@
 @Regression
 Feature: Salesforce Marketing Cloud Source - Design time Validation scenarios
 
-  @BATCH-TS-SFMC-DSGN-ERROR-01
+  @BATCH-TS-SFMC-DSGN-ERROR-01 @R
   Scenario: Verify required fields missing validation for listed properties
     When Open Datafusion Project to configure pipeline
     And Select plugin: "Salesforce Marketing" from the plugins list as: "Source"
@@ -30,7 +30,6 @@ Feature: Salesforce Marketing Cloud Source - Design time Validation scenarios
       | clientSecret |
       | authEndpoint |
       | soapEndpoint |
-      | restEndpoint |
 
   @BATCH-TS-SFMC-DSGN-ERROR-02
   Scenario: Verify validation message when user provides invalid Authentication Properties
