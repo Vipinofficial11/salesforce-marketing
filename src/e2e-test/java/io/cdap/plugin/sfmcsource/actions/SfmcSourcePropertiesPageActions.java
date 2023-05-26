@@ -22,7 +22,6 @@ import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
-import com.simba.googlebigquery.jdbc.DataSource;
 import io.cdap.e2e.pages.locators.CdfPluginPropertiesLocators;
 import io.cdap.e2e.utils.BigQueryClient;
 import io.cdap.e2e.utils.ElementHelper;

@@ -30,7 +30,6 @@ Feature: Salesforce Marketing Cloud Source - Design time Validation scenarios
       | clientSecret |
       | authEndpoint |
       | soapEndpoint |
-      | restEndpoint |
 
   @BATCH-TS-SFMC-DSGN-ERROR-02
   Scenario: Verify validation message when user provides invalid Authentication Properties
